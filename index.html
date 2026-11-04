@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="보험회사 재무정보 패널데이터를 회사와 변수별로 탐색하는 인터랙티브 대시보드">
 <title>Insurance Financial Data Explorer</title>
+<link rel="stylesheet" href="panel-switch.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
 :root{--bg:#f5f7fa;--card:#fff;--text:#17202a;--muted:#667085;--line:#dfe5ec;--navy:#18364f;--blue:#2f6f9f;--soft:#edf4f8;--green:#147d58;--red:#b42318;--shadow:0 12px 30px rgba(22,34,48,.08)}
@@ -18,7 +19,7 @@ header{background:#fff;border-bottom:1px solid var(--line);padding:24px clamp(18
 </style>
 </head>
 <body>
-<header><div><div class="eyebrow">INSURANCE DATA PORTFOLIO</div><h1>Insurance Financial Data Explorer</h1><p>보험회사 재무 패널데이터를 회사 × 변수 × 기간으로 탐색합니다.</p></div><div class="source"><div class="pill">FISIS 통합 패널</div><div>2012Q1–2026Q2 · 39개사 · F1–F1493 전체 변수</div></div></header>
+<header><div><div class="eyebrow">INSURANCE DATA PORTFOLIO</div><h1>Insurance Financial Data Explorer</h1><p>보험회사 재무 패널데이터를 회사 × 변수 × 기간으로 탐색합니다.</p></div><div class="source"><nav class="panel-switch" aria-label="데이터 패널"><a href="./" aria-current="page">FISIS 통합 패널</a><a href="disclosure.html">경영공시 통합패널</a></nav><div>2012Q1–2026Q2 · 39개사 · F1–F1493 전체 변수</div></div></header>
 <div class="layout"><aside><div class="sidehead"><div><div class="eyebrow">COMPANIES</div><h2>보험회사</h2></div><div id="count" class="badge">0</div></div><div class="search"><input id="companySearch" type="search" placeholder="회사명 검색"></div><div class="sidebuttons"><button id="selectVisible" class="btn primary">보이는 회사 전체 선택</button><button id="clearCompanies" class="btn">전체 해제</button></div><div id="companyList"></div></aside>
 <main><section class="controls"><label class="field"><span>통계표</span><select id="dbSelect"><option value="">전체 통계표</option></select></label><div class="field"><label for="variableInput">변수명 또는 코드</label><div class="search"><input id="variableInput" value="자산총계" autocomplete="off"></div><div id="suggestions" class="suggestions" hidden></div></div><label class="field"><span>시작 분기</span><select id="start"></select></label><label class="field"><span>종료 분기</span><select id="end"></select></label></section>
 <section class="varcard"><div class="varmain"><div class="eyebrow">SELECTED VARIABLE</div><div><h2 style="display:inline" id="varName">자산총계</h2><span id="varCode" class="code">F1</span></div><p id="varDb">요약재무상태표(자산-전체)</p><div class="varmeta"><div class="varmeta-label">DB명_변경전</div><div id="varDbOld" class="varmeta-value">불러오는 중...</div><div class="varmeta-label">변수명_변경전</div><div id="varNameOld" class="varmeta-value">불러오는 중...</div></div></div><div class="pill">실제 데이터</div></section>
