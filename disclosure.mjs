@@ -1,4 +1,4 @@
-import {createModel,isValue,ratioInputs,change,treemap,compositionNote} from './disclosure-core.mjs';
+import {createModel,isValue,ratioInputs,change,treemap,compositionNote} from './disclosure-core.mjs?v=20261108';
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let model,data;
@@ -172,14 +172,14 @@ function renderCompanyComposition(){
   const missing=rows.filter(r=>!isValue(r.value));if(missing.length){const p=document.createElement('p');p.className='missing-note';p.textContent=`미관측: ${missing.map(r=>r.name).join(', ')}`;$('companiesTable').appendChild(p);}
 }
 async function start(){
-  const response=await fetch('./data/disclosure/panel.json.gz.b64');if(!response.ok)throw new Error('공시 데이터 파일을 불러오지 못했습니다.');
+  const response=await fetch('./data/disclosure/panel.json.gz.b64?v=20261108');if(!response.ok)throw new Error('공시 데이터 파일을 불러오지 못했습니다.');
   const bytes=Uint8Array.from(atob((await response.text()).trim()),c=>c.charCodeAt(0));
   const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));data=await new Response(stream).json();model=createModel(data);
   if(typeof Chart==='undefined')throw new Error('차트 도구를 불러오지 못했습니다. 네트워크 연결을 확인한 후 새로고침하세요.');
   for(const id of ['start','end']){$(id).innerHTML=data.periods.map(p=>`<option>${p}</option>`).join('');$(id).value=id==='start'?data.periods[0]:data.periods.at(-1);$(id).onchange=renderCards;}
   $('groupSelect').innerHTML='<option value="">전체 분류</option>'+[...new Set(data.variables.map(v=>v.group))].map(g=>`<option value="${esc(g)}">${esc(g)}</option>`).join('');
   $('groupSelect').onchange=()=>{$('variableInput').value='';suggestions();};
-  $('sourceName').textContent=`자료: ${data.source} · DATA 및 변수정보 시트. 원자료 수치는 변경하지 않았습니다.`;
+  $('sourceName').textContent=`자료: ${data.source} · DATA 및 변수정보 시트. 2026-11-08 갱신. 엑셀의 보완값을 그대로 반영하며 사이트에서 추가 추정하지 않습니다.`;
   $('companySearch').oninput=renderCompanies;
   $('selectVisible').onclick=()=>{visibleCompanies().forEach(c=>state.selected.add(c.id));renderCompanies();renderCards();};
   $('clearCompanies').onclick=()=>{state.selected.clear();renderCompanies();renderCards();};
