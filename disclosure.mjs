@@ -1,4 +1,4 @@
-import {createModel,isValue,ratioInputs,change,treemap,compositionNote} from './disclosure-core.mjs?v=20261110-final';
+import {createModel,isValue,ratioInputs,change,treemap,compositionNote} from './disclosure-core.mjs?v=20261110-recheck';
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let model,data;
@@ -172,7 +172,7 @@ function renderCompanyComposition(){
   const missing=rows.filter(r=>!isValue(r.value));if(missing.length){const p=document.createElement('p');p.className='missing-note';p.textContent=`미관측: ${missing.map(r=>r.name).join(', ')}`;$('companiesTable').appendChild(p);}
 }
 async function start(){
-  const response=await fetch('./data/disclosure/panel.json.gz.b64?v=20261110-final');if(!response.ok)throw new Error('공시 데이터 파일을 불러오지 못했습니다.');
+  const response=await fetch('./data/disclosure/panel.json.gz.b64?v=20261110-recheck');if(!response.ok)throw new Error('공시 데이터 파일을 불러오지 못했습니다.');
   const bytes=Uint8Array.from(atob((await response.text()).trim()),c=>c.charCodeAt(0));
   const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));data=await new Response(stream).json();model=createModel(data);
   if(typeof Chart==='undefined')throw new Error('차트 도구를 불러오지 못했습니다. 네트워크 연결을 확인한 후 새로고침하세요.');
